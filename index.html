@@ -5,1056 +5,333 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FilmlaborOS — AI Business Operating System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #171717;
-    --white: #fafaf9;
-    --gray-50: #f5f5f4;
-    --gray-100: #e7e5e4;
-    --gray-200: #d6d3d1;
-    --gray-300: #a8a29e;
-    --gray-400: #78716c;
-    --gray-500: #57534e;
-    --accent: oklch(0.65 0.15 250);
-    --accent-light: oklch(0.92 0.04 250);
-    --green: oklch(0.7 0.14 155);
-    --green-light: oklch(0.94 0.04 155);
-    --amber: oklch(0.75 0.14 75);
-    --amber-light: oklch(0.94 0.04 75);
-    --rose: oklch(0.68 0.14 15);
-    --rose-light: oklch(0.94 0.04 15);
-    --purple: oklch(0.65 0.14 300);
-    --purple-light: oklch(0.93 0.04 300);
-    --radius: 10px;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
-    --shadow-md: 0 2px 8px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
-    --shadow-lg: 0 4px 12px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.06);
-    --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Outfit', system-ui, sans-serif;
-    color: var(--black);
-    background: var(--white);
-    line-height: 1.6;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
-
-  /* HERO */
-  .hero {
-    padding: 80px 0 60px;
-    text-align: center;
-    background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
-    border-bottom: 1px solid var(--gray-100);
-  }
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 14px;
-    background: var(--accent-light);
-    color: var(--accent);
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    margin-bottom: 20px;
-  }
-  .hero h1 {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(36px, 5vw, 56px);
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    line-height: 1.1;
-    margin-bottom: 16px;
-  }
-  .hero h1 span { color: var(--accent); }
-  .hero p {
-    font-size: 18px;
-    color: var(--gray-400);
-    max-width: 560px;
-    margin: 0 auto 32px;
-    line-height: 1.5;
-  }
-  .hero-stats {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    flex-wrap: wrap;
-  }
-  .hero-stat {
-    text-align: center;
-  }
-  .hero-stat strong {
-    display: block;
-    font-family: 'Fraunces', serif;
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--black);
-  }
-  .hero-stat small {
-    font-size: 13px;
-    color: var(--gray-400);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  /* SECTIONS */
-  section { padding: 64px 0; }
-  section + section { border-top: 1px solid var(--gray-100); }
-  .section-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--accent);
-    margin-bottom: 8px;
-  }
-  h2 {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(24px, 3vw, 32px);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    margin-bottom: 12px;
-    line-height: 1.2;
-  }
-  .section-desc {
-    color: var(--gray-400);
-    font-size: 16px;
-    margin-bottom: 36px;
-    max-width: 640px;
-  }
-
-  /* 3 LAYERS */
-  .layers {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  @media (max-width: 768px) { .layers { grid-template-columns: 1fr; } }
-  .layer-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    box-shadow: var(--shadow-md);
-    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
-    position: relative;
-    overflow: hidden;
-  }
-  .layer-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-  .layer-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-  }
-  .layer-card.knowledge::before { background: var(--accent); }
-  .layer-card.system::before { background: var(--green); }
-  .layer-card.work::before { background: var(--amber); }
-  .layer-icon {
-    width: 40px; height: 40px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    margin-bottom: 14px;
-    font-weight: 600;
-  }
-  .knowledge .layer-icon { background: var(--accent-light); color: var(--accent); }
-  .system .layer-icon { background: var(--green-light); color: var(--green); }
-  .work .layer-icon { background: var(--amber-light); color: var(--amber); }
-  .layer-card h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 4px;
-  }
-  .layer-card .folder {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--gray-400);
-    margin-bottom: 10px;
-  }
-  .layer-card p { font-size: 14px; color: var(--gray-500); line-height: 1.5; }
-
-  /* TREE */
-  .tree-wrapper {
-    background: var(--black);
-    color: #e2e0dc;
-    border-radius: var(--radius);
-    padding: 32px;
-    box-shadow: var(--shadow-lg);
-    overflow-x: auto;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    line-height: 1.7;
-  }
-  .tree-wrapper .dir { color: oklch(0.8 0.12 250); font-weight: 500; }
-  .tree-wrapper .file { color: #a8a29e; }
-  .tree-wrapper .comment { color: #57534e; }
-  .tree-wrapper .highlight { color: oklch(0.85 0.14 75); font-weight: 500; }
-
-  /* FLOW DIAGRAM */
-  .flow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    padding: 40px 0;
-  }
-  .flow-node {
-    padding: 14px 28px;
-    border-radius: var(--radius);
-    font-weight: 500;
-    font-size: 15px;
-    text-align: center;
-    box-shadow: var(--shadow-sm);
-    position: relative;
-    min-width: 200px;
-  }
-  .flow-node.primary { background: var(--black); color: var(--white); font-size: 16px; }
-  .flow-arrow {
-    width: 2px;
-    height: 28px;
-    background: var(--gray-200);
-    position: relative;
-  }
-  .flow-arrow::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: -4px;
-    width: 10px; height: 10px;
-    border-left: 2px solid var(--gray-200);
-    border-bottom: 2px solid var(--gray-200);
-    transform: rotate(-45deg);
-  }
-  .flow-label {
-    font-size: 13px;
-    color: var(--gray-400);
-    padding: 6px 0;
-    font-style: italic;
-  }
-  .flow-branches {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    width: 100%;
-    max-width: 720px;
-  }
-  @media (max-width: 640px) { .flow-branches { grid-template-columns: 1fr; } }
-  .branch {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  .branch-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 18px 16px;
-    box-shadow: var(--shadow-md);
-    text-align: center;
-    width: 100%;
-    transition: transform 0.3s var(--ease);
-  }
-  .branch-card:hover { transform: translateY(-2px); }
-  .branch-card h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    letter-spacing: -0.02em;
-  }
-  .branch-card.sales { border-top: 3px solid var(--accent); }
-  .branch-card.content { border-top: 3px solid var(--green); }
-  .branch-card.video { border-top: 3px solid var(--amber); }
-  .branch-card ul {
-    list-style: none;
-    font-size: 13px;
-    color: var(--gray-500);
-    line-height: 1.6;
-  }
-  .branch-pipe {
-    width: 2px; height: 20px;
-    background: var(--gray-200);
-  }
-  .branch-target {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    padding: 6px 14px;
-    background: var(--gray-50);
-    border-radius: 6px;
-    color: var(--gray-500);
-    box-shadow: var(--shadow-sm);
-  }
-
-  /* SKILLS GRID */
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 14px;
-  }
-  .skill-cat {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 20px;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow 0.3s var(--ease);
-  }
-  .skill-cat:hover { box-shadow: var(--shadow-md); }
-  .skill-cat-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-  }
-  .skill-cat-icon {
-    width: 32px; height: 32px;
-    border-radius: 7px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-  }
-  .skill-cat h4 {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-  .skill-cat .skill-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .skill-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    padding: 3px 10px;
-    background: var(--gray-50);
-    border-radius: 5px;
-    color: var(--gray-500);
-    transition: background 0.2s var(--ease), color 0.2s var(--ease);
-  }
-  .skill-tag:hover { background: var(--black); color: var(--white); }
-
-  /* INTEGRATIONS */
-  .integrations {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 12px;
-  }
-  .integration {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 18px;
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
-  }
-  .integration:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
-  .integration-icon {
-    width: 38px; height: 38px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    font-weight: 700;
-    flex-shrink: 0;
-  }
-  .integration h4 { font-size: 14px; font-weight: 600; }
-  .integration p { font-size: 12px; color: var(--gray-400); margin-top: 1px; }
-
-  /* METHODOLOGY */
-  .method-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 14px;
-  }
-  .method-item {
-    display: flex;
-    gap: 14px;
-    padding: 18px;
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-  }
-  .method-num {
-    font-family: 'Fraunces', serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--gray-200);
-    flex-shrink: 0;
-    width: 36px;
-    text-align: center;
-    line-height: 1.2;
-  }
-  .method-item h4 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
-  .method-item p { font-size: 13px; color: var(--gray-500); line-height: 1.45; }
-
-  /* QUICKSTART */
-  .quickstart {
-    background: var(--black);
-    color: var(--white);
-    border-radius: var(--radius);
-    padding: 32px;
-    box-shadow: var(--shadow-lg);
-  }
-  .quickstart h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    letter-spacing: -0.02em;
-  }
-  .qs-step {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 18px;
-    align-items: flex-start;
-  }
-  .qs-num {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-    flex-shrink: 0;
-    color: var(--gray-300);
-  }
-  .qs-step p { font-size: 14px; color: #a8a29e; line-height: 1.5; }
-  .qs-step code {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    background: rgba(255,255,255,0.08);
-    padding: 2px 8px;
-    border-radius: 4px;
-    color: oklch(0.85 0.12 75);
-  }
-  .qs-step strong { color: var(--white); font-weight: 500; }
-
-  /* PIPELINE */
-  .pipeline-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  @media (max-width: 640px) { .pipeline-grid { grid-template-columns: 1fr; } }
-  .pipeline-card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 24px;
-    box-shadow: var(--shadow-md);
-  }
-  .pipeline-card h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    letter-spacing: -0.02em;
-  }
-  .pipeline-step {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 0;
-    font-size: 14px;
-  }
-  .pipeline-step + .pipeline-step {
-    border-top: 1px dashed var(--gray-100);
-  }
-  .pipeline-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .pipeline-step .mono {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--gray-400);
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-
-  /* FOOTER */
-  footer {
-    padding: 40px 0;
-    text-align: center;
-    border-top: 1px solid var(--gray-100);
-    color: var(--gray-400);
-    font-size: 14px;
-  }
-  footer strong { color: var(--black); font-weight: 500; }
-
-  /* SKILL ANATOMY */
-  .anatomy {
-    background: var(--gray-50);
-    border-radius: var(--radius);
-    padding: 28px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    line-height: 1.8;
-    box-shadow: var(--shadow-sm);
-    max-width: 440px;
-  }
-  .anatomy .dir-name { color: var(--accent); font-weight: 500; }
-  .anatomy .file-name { color: var(--gray-500); }
-  .anatomy .desc { color: var(--gray-300); font-family: 'Outfit', sans-serif; font-size: 13px; }
-
-  /* SKILL LOCATIONS */
-  .skill-locations {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-bottom: 32px;
-  }
-  @media (max-width: 768px) { .skill-locations { grid-template-columns: 1fr; } }
-  .skill-loc {
-    text-align: center;
-    padding: 20px;
-    background: var(--white);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-  }
-  .skill-loc strong {
-    font-family: 'Fraunces', serif;
-    font-size: 28px;
-    display: block;
-    margin-bottom: 2px;
-    letter-spacing: -0.03em;
-  }
-  .skill-loc .path {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--gray-400);
-    margin-bottom: 4px;
-  }
-  .skill-loc p { font-size: 13px; color: var(--gray-500); }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#fafaf9;--black:#171717;--white:#fafaf9;--g50:#f5f5f4;--g100:#e7e5e4;--g200:#d6d3d1;--g300:#a8a29e;--g400:#78716c;--g500:#57534e;--blue:oklch(0.65 0.15 250);--blue-l:oklch(0.93 0.04 250);--green:oklch(0.68 0.15 155);--green-l:oklch(0.94 0.04 155);--amber:oklch(0.75 0.14 75);--amber-l:oklch(0.94 0.04 75);--rose:oklch(0.68 0.14 15);--rose-l:oklch(0.94 0.04 15);--purple:oklch(0.65 0.14 300);--purple-l:oklch(0.93 0.04 300);--r:10px;--ease:cubic-bezier(0.16,1,0.3,1);--sh:0 2px 8px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);--sh-lg:0 4px 12px rgba(0,0,0,0.06),0 12px 40px rgba(0,0,0,0.08)}
+body{font-family:'Outfit',system-ui,sans-serif;color:var(--black);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+.mono{font-family:'Geist Mono','JetBrains Mono',monospace}
+.container{max-width:1080px;margin:0 auto;padding:0 20px}
+section{padding:56px 0}section+section{border-top:1px solid var(--g100)}
+.hero{padding:72px 0 48px;text-align:center;background:linear-gradient(180deg,var(--g50) 0%,var(--bg) 100%);border-bottom:1px solid var(--g100)}
+.hero-badge{display:inline-block;padding:4px 14px;background:var(--blue-l);color:var(--blue);border-radius:20px;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:16px}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(40px,6vw,64px);font-weight:700;letter-spacing:-0.04em;line-height:1.05;margin-bottom:12px}
+.hero h1 em{font-style:normal;color:var(--blue)}
+.hero p{font-size:17px;color:var(--g400);max-width:520px;margin:0 auto 28px}
+.stats{display:flex;justify-content:center;gap:32px;flex-wrap:wrap}
+.stat strong{display:block;font-family:'Fraunces',serif;font-size:30px;font-weight:700;letter-spacing:-0.03em}
+.stat small{font-size:11px;color:var(--g400);font-weight:600;text-transform:uppercase;letter-spacing:0.08em}
+.label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--blue);margin-bottom:6px}
+h2{font-family:'Fraunces',serif;font-size:clamp(22px,3vw,30px);font-weight:600;letter-spacing:-0.03em;margin-bottom:8px;line-height:1.2}
+.desc{color:var(--g400);font-size:15px;margin-bottom:28px;max-width:580px}
+.concept{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.concept-visual{background:var(--black);color:#d6d3d1;border-radius:var(--r);padding:28px;font-family:'Geist Mono',monospace;font-size:13px;line-height:1.8;box-shadow:var(--sh-lg);overflow-x:auto;white-space:pre}
+.concept-visual .h{color:oklch(0.85 0.14 75);font-weight:500}
+.concept-visual .d{color:oklch(0.75 0.12 250);font-weight:500}
+.concept-visual .c{color:#57534e}
+@media(max-width:768px){.concept{grid-template-columns:1fr}}
+.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.layer{border-radius:var(--r);padding:22px 20px;box-shadow:var(--sh);position:relative;overflow:hidden;background:var(--white);transition:transform 0.3s var(--ease)}
+.layer:hover{transform:translateY(-2px)}
+.layer::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.layer.k::before{background:var(--blue)}.layer.s::before{background:var(--green)}.layer.a::before{background:var(--amber)}
+.layer-badge{display:inline-block;width:28px;height:28px;border-radius:6px;text-align:center;line-height:28px;font-size:12px;font-weight:600;margin-bottom:10px}
+.layer.k .layer-badge{background:var(--blue-l);color:var(--blue)}
+.layer.s .layer-badge{background:var(--green-l);color:var(--green)}
+.layer.a .layer-badge{background:var(--amber-l);color:var(--amber)}
+.layer h3{font-family:'Fraunces',serif;font-size:17px;font-weight:600;letter-spacing:-0.02em;margin-bottom:2px}
+.layer .path{font-family:'Geist Mono',monospace;font-size:12px;color:var(--g400);margin-bottom:8px}
+.layer p{font-size:13px;color:var(--g500);line-height:1.5}
+@media(max-width:640px){.layers,.skill-numbers,.anatomy-grid,.pipe-grid,.flow-grid{grid-template-columns:1fr}}
+.routing{background:var(--black);color:var(--white);border-radius:var(--r);padding:28px;box-shadow:var(--sh-lg);overflow-x:auto}
+.routing h3{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:16px;letter-spacing:-0.02em}
+.routing table{width:100%;border-collapse:collapse;font-size:13px}
+.routing th{text-align:left;padding:6px 12px 6px 0;color:var(--g300);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;border-bottom:1px solid rgba(255,255,255,0.08)}
+.routing td{padding:7px 12px 7px 0;border-bottom:1px solid rgba(255,255,255,0.04);color:#d6d3d1}
+.routing .cat{color:oklch(0.85 0.14 75);font-weight:600;padding-top:14px}
+.routing .skill{font-family:'Geist Mono',monospace;font-size:12px;color:oklch(0.75 0.12 250)}
+.flow-wrap{text-align:center;padding:20px 0}
+.flow-box{display:inline-block;padding:12px 24px;border-radius:var(--r);font-weight:500;font-size:14px;box-shadow:var(--sh);margin:4px}
+.flow-box.primary{background:var(--black);color:var(--white)}
+.flow-arrow{display:block;margin:6px auto;width:2px;height:24px;background:var(--g200);position:relative}
+.flow-arrow::after{content:'';position:absolute;bottom:-3px;left:-3px;width:8px;height:8px;border-left:2px solid var(--g200);border-bottom:2px solid var(--g200);transform:rotate(-45deg)}
+.flow-label{font-size:12px;color:var(--g400);font-style:italic;margin:4px 0}
+.flow-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:680px;margin:0 auto}
+.flow-card{background:var(--white);border-radius:var(--r);padding:16px;box-shadow:var(--sh);text-align:left}
+.flow-card h4{font-family:'Fraunces',serif;font-size:15px;font-weight:600;margin-bottom:6px;letter-spacing:-0.02em}
+.flow-card ul{list-style:none;font-size:12px;color:var(--g500);line-height:1.7}
+.flow-card.s{border-top:3px solid var(--blue)}.flow-card.c{border-top:3px solid var(--green)}.flow-card.v{border-top:3px solid var(--amber)}
+.flow-pipe{width:2px;height:16px;background:var(--g200);margin:6px auto}
+.flow-target{font-family:'Geist Mono',monospace;font-size:11px;padding:5px 12px;background:var(--g50);border-radius:6px;color:var(--g400);display:inline-block}
+.skill-numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.skill-num{text-align:center;padding:16px;background:var(--white);border-radius:var(--r);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.skill-num strong{display:block;font-family:'Fraunces',serif;font-size:26px;letter-spacing:-0.03em}
+.skill-num .p{font-family:'Geist Mono',monospace;font-size:11px;color:var(--g400)}
+.skill-num span{font-size:12px;color:var(--g500)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.scat{background:var(--white);border-radius:var(--r);padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.scat-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.scat-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.scat h4{font-size:14px;font-weight:600}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-family:'Geist Mono',monospace;font-size:11px;padding:2px 8px;background:var(--g50);border-radius:4px;color:var(--g500);transition:all 0.2s var(--ease)}
+.tag:hover{background:var(--black);color:var(--white)}
+.anatomy-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.anatomy-code{background:var(--g50);border-radius:var(--r);padding:20px;font-family:'Geist Mono',monospace;font-size:13px;line-height:1.8}
+.anatomy-code .dir{color:var(--blue);font-weight:500}
+.anatomy-code .cmt{color:var(--g300);font-family:'Outfit',sans-serif;font-size:12px}
+.pipe-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pipe{background:var(--white);border-radius:var(--r);padding:20px;box-shadow:var(--sh)}
+.pipe h4{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:12px;letter-spacing:-0.02em}
+.pipe-step{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:13px}
+.pipe-step+.pipe-step{border-top:1px dashed var(--g100)}
+.pipe-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pipe-step .m{font-family:'Geist Mono',monospace;font-size:11px;color:var(--g400);margin-left:auto;flex-shrink:0}
+.int-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.int{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--white);border-radius:var(--r);box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:all 0.3s var(--ease)}
+.int:hover{box-shadow:var(--sh);transform:translateY(-1px)}
+.int-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.int h4{font-size:13px;font-weight:600}.int p{font-size:11px;color:var(--g400);margin-top:1px}
+.rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.rule{display:flex;gap:12px;padding:16px;background:var(--white);border-radius:var(--r);box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.rule-n{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--g200);width:28px;flex-shrink:0;text-align:center}
+.rule h4{font-size:13px;font-weight:600;margin-bottom:2px}
+.rule p{font-size:12px;color:var(--g500);line-height:1.45}
+.qs{background:var(--black);color:var(--white);border-radius:var(--r);padding:28px;box-shadow:var(--sh-lg)}
+.qs h3{font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:16px;letter-spacing:-0.02em}
+.qs-step{display:flex;gap:14px;margin-bottom:14px;align-items:flex-start}
+.qs-n{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;color:var(--g300)}
+.qs-step p{font-size:13px;color:#a8a29e}.qs-step strong{color:var(--white);font-weight:500}
+.qs-step code{font-family:'Geist Mono',monospace;font-size:12px;background:rgba(255,255,255,0.07);padding:1px 6px;border-radius:3px;color:oklch(0.85 0.12 75)}
+footer{padding:32px 0;text-align:center;border-top:1px solid var(--g100);color:var(--g400);font-size:13px}
+footer strong{color:var(--black);font-weight:500}
 </style>
 </head>
 <body>
+<header class="hero"><div class="container">
+  <div class="hero-badge">AI Business OS</div>
+  <h1>Filmlabor<em>OS</em></h1>
+  <p>AI-gesteuertes Business Operating System. Obsidian + Claude Code + 169 Skills.</p>
+  <div class="stats"><div class="stat"><strong>169</strong><small>Skills</small></div><div class="stat"><strong>68+</strong><small>Automationen</small></div><div class="stat"><strong>9</strong><small>Integrationen</small></div><div class="stat"><strong>3</strong><small>Schichten</small></div></div>
+</div></header>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="container">
-    <div class="hero-badge">AI Business OS</div>
-    <h1>Filmlabor<span>OS</span></h1>
-    <p>Ein komplettes AI-gesteuertes Business Operating System auf Basis von Obsidian + Claude Code</p>
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <strong>169</strong>
-        <small>AI Skills</small>
-      </div>
-      <div class="hero-stat">
-        <strong>68+</strong>
-        <small>Automationen</small>
-      </div>
-      <div class="hero-stat">
-        <strong>9</strong>
-        <small>Integrationen</small>
-      </div>
-      <div class="hero-stat">
-        <strong>3</strong>
-        <small>Schichten</small>
-      </div>
-    </div>
+<section><div class="container concept">
+  <div>
+    <div class="label">Kern-Idee</div>
+    <h2>Du sagst was du willst. Das System weiss wo.</h2>
+    <p class="desc">CLAUDE.md ist die Routing Table. Jede Aufgabe hat einen klaren Pfad: welcher Skill, welcher Ordner, welches Script.</p>
+    <p class="desc" style="margin-top:-12px">Jeder Hauptordner hat eine <strong>CONTEXT.md</strong>. Jeder Skill hat eine <strong>SKILL.md</strong> mit Stages und Beispielen.</p>
   </div>
-</header>
+  <div class="concept-visual"><span class="h">Du:</span> "Erstelle ein Angebot fuer Kunde X"
+<span class="c">                    |</span>
+<span class="c">                    v</span>
+<span class="d">CLAUDE.md</span> <span class="c">Routing Table</span>
+<span class="c">  Aufgabe: Angebot</span>
+<span class="c">  Geh zu:  workspace/docs/</span>
+<span class="c">  Skill:   angebot-pdf</span>
+<span class="c">                    |</span>
+<span class="c">                    v</span>
+<span class="d">code/skills/angebot-pdf/SKILL.md</span>
+<span class="c">  Templates laden</span>
+<span class="c">  Spec-Review-Gate</span>
+<span class="c">  PDF generieren</span>
+<span class="c">                    |</span>
+<span class="c">                    v</span>
+<span class="h">workspace/docs/angebot-kunde-x.pdf</span></div>
+</div></section>
 
-<!-- 3 LAYERS -->
-<section style="background: var(--gray-50)">
-  <div class="container">
-    <div class="section-label">Architektur</div>
-    <h2>Drei Schichten, ein System</h2>
-    <p class="section-desc">Jeder Ordner gehoert zu genau einer Schicht. Klare Trennung zwischen Wissen, System und Arbeit.</p>
-    <div class="layers">
-      <div class="layer-card knowledge">
-        <div class="layer-icon">W</div>
-        <h3>Wissen</h3>
-        <div class="folder">context/</div>
-        <p>Read-only Wahrheitsquelle. Firmendaten, Strategien, Lernmaterial, Call Notes. Wird nie aus Outputs gelernt.</p>
-      </div>
-      <div class="layer-card system">
-        <div class="layer-icon">S</div>
-        <h3>System</h3>
-        <div class="folder">code/ + scripts/</div>
-        <p>Skills und Automationen. Jeder Skill hat eine SKILL.md als Anleitung. Scripts fuehren Pipelines aus.</p>
-      </div>
-      <div class="layer-card work">
-        <div class="layer-icon">A</div>
-        <h3>Arbeit</h3>
-        <div class="folder">workspace/</div>
-        <p>Aktive Dateien. Ein Ordner pro Client, Content-Drafts, Projekte, Research. Hier passiert die Arbeit.</p>
-      </div>
-    </div>
+<section style="background:var(--g50)"><div class="container">
+  <div class="label">Architektur</div>
+  <h2>Drei Schichten, ein System</h2>
+  <p class="desc">Klare Trennung: Wissen aendert sich selten. System ist stabil. Arbeit ist aktiv.</p>
+  <div class="layers">
+    <div class="layer k"><div class="layer-badge">W</div><h3>Wissen</h3><div class="path">context/</div><p>Read-only. Business-Daten, Strategien, Lernmaterial. Wird nie aus Outputs gelernt.</p></div>
+    <div class="layer s"><div class="layer-badge">S</div><h3>System</h3><div class="path">code/ + scripts/</div><p>169 Skills mit SKILL.md. Python-Pipelines, API-Clients, Automationen.</p></div>
+    <div class="layer a"><div class="layer-badge">A</div><h3>Arbeit</h3><div class="path">workspace/</div><p>Ein Ordner pro Client. Content-Drafts, Projekte, Research.</p></div>
   </div>
-</section>
+</div></section>
 
-<!-- FLOW -->
-<section>
-  <div class="container">
-    <div class="section-label">Workflow</div>
-    <h2>Wie es funktioniert</h2>
-    <p class="section-desc">CLAUDE.md ist das Gehirn. Jede Aufgabe wird automatisch zum richtigen Skill geroutet.</p>
-    <div class="flow">
-      <div class="flow-node primary">CLAUDE.md — Routing Table</div>
-      <div class="flow-arrow"></div>
-      <div class="flow-label">Was willst du tun?</div>
-      <div class="flow-arrow"></div>
-      <div class="flow-branches">
-        <div class="branch">
-          <div class="branch-card sales">
-            <h4>Sales</h4>
-            <ul>
-              <li>Prospect Research</li>
-              <li>Lead Enrichment</li>
-              <li>Angebote / Rechnungen</li>
-              <li>Cold Outreach</li>
-            </ul>
-          </div>
-          <div class="branch-pipe"></div>
-          <div class="branch-target">scripts/pipelines/</div>
-          <div class="branch-pipe"></div>
-          <div class="branch-target">Airtable CRM</div>
-        </div>
-        <div class="branch">
-          <div class="branch-card content">
-            <h4>Content</h4>
-            <ul>
-              <li>LinkedIn Posts</li>
-              <li>Content Pipeline</li>
-              <li>Repurposing</li>
-              <li>Strategie</li>
-            </ul>
-          </div>
-          <div class="branch-pipe"></div>
-          <div class="branch-target">scripts/pipelines/</div>
-          <div class="branch-pipe"></div>
-          <div class="branch-target">LinkedIn API</div>
-        </div>
-        <div class="branch">
-          <div class="branch-card video">
-            <h4>Video</h4>
-            <ul>
-              <li>Schnitt-Pipeline</li>
-              <li>AI Videocut</li>
-              <li>Remotion Render</li>
-              <li>Video Pitch</li>
-            </ul>
-          </div>
-          <div class="branch-pipe"></div>
-          <div class="branch-target">scripts/video/</div>
-          <div class="branch-pipe"></div>
-          <div class="branch-target">ClickUp Pipeline</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<section><div class="container concept">
+  <div class="concept-visual"><span class="h">FilmlaborOS/</span>
+  <span class="d">CLAUDE.md</span>              <span class="c"># Routing Table</span>
+  <span class="d">CONTEXT.md</span>             <span class="c"># Was ist das?</span>
+  <span class="d">ENVIRONMENT.md</span>         <span class="c"># Tech Stack</span>
 
-<!-- FOLDER TREE -->
-<section style="background: var(--gray-50)">
-  <div class="container">
-    <div class="section-label">Struktur</div>
+  <span class="d">context/</span>               <span class="c"># WISSEN</span>
+    <span class="d">business/</span>            <span class="c"># Firma, APIs</span>
+      <span class="d">telos/</span>             <span class="c"># Mission, Vision</span>
+      <span class="d">onboarding/</span>        <span class="c"># Team Setup</span>
+    <span class="d">learning/</span>            <span class="c"># Kurse, Transkripte</span>
+    <span class="d">calls/</span>               <span class="c"># Meeting Notes</span>
+
+  <span class="d">code/</span>                  <span class="c"># SYSTEM</span>
+    <span class="d">skills/</span>              <span class="c"># 103 Business Skills</span>
+    <span class="d">external/</span>            <span class="c"># Referenz-Repos</span>
+
+  <span class="d">workspace/</span>             <span class="c"># ARBEIT</span>
+    <span class="d">clients/</span>             <span class="c"># 1 Ordner pro Client</span>
+    <span class="d">content/</span>             <span class="c"># LinkedIn, Social</span>
+    <span class="d">foundations/</span>          <span class="c"># Tagesplanung</span>
+    <span class="d">projects/</span>            <span class="c"># Laufende Projekte</span>
+    <span class="d">research/</span>            <span class="c"># Marktanalysen</span>
+
+  <span class="d">scripts/</span>               <span class="c"># CODE</span>
+    <span class="d">api/</span>                 <span class="c"># LinkedIn, Airtable</span>
+    <span class="d">pipelines/</span>           <span class="c"># Enrichment, Outreach</span>
+    <span class="d">projects/</span>            <span class="c"># Web-Apps (Next.js)</span>
+    <span class="d">reports/</span>             <span class="c"># Daily Digest, KPIs</span>
+    <span class="d">servers/</span>             <span class="c"># Telegram Bot</span>
+    <span class="d">services/</span>            <span class="c"># Shannon, Kondo</span>
+    <span class="d">tinder-auto/</span>         <span class="c"># Playwright Auto</span>
+    <span class="d">video/</span>               <span class="c"># Videocut, Remotion</span></div>
+  <div>
+    <div class="label">Struktur</div>
     <h2>Ordner-Architektur</h2>
-    <p class="section-desc">Aufgebaut nach der Jake Van Clief Methodik. Jeder Hauptordner hat eine CONTEXT.md.</p>
-    <div class="tree-wrapper">
-<span class="highlight">FilmlaborOS/</span>
-<span class="file">  CLAUDE.md</span>                  <span class="comment"># Routing Table</span>
-<span class="file">  CONTEXT.md</span>                 <span class="comment"># Was ist dieses Vault?</span>
-<span class="file">  ENVIRONMENT.md</span>             <span class="comment"># Technische Umgebung</span>
+    <p class="desc">Jake Van Clief Methodik. Jeder Hauptordner hat eine CONTEXT.md.</p>
+    <h4 style="font-family:'Fraunces',serif;font-size:17px;font-weight:600;letter-spacing:-0.02em;margin-bottom:8px">Skill-Anatomie</h4>
+    <p style="font-size:13px;color:var(--g500);margin-bottom:12px">Jeder Skill folgt dem gleichen Pattern:</p>
+    <div class="anatomy-code">
+<span class="dir">skill-name/</span>
+  SKILL.md       <span class="cmt">Anleitung + Stages</span>
+  examples/      <span class="cmt">Referenz-Outputs</span>
+  references/    <span class="cmt">Externe Docs</span>
+  scripts/       <span class="cmt">Automations-Code</span></div>
+    <p style="font-size:13px;color:var(--g500);margin-top:12px">Der AI-Agent liest SKILL.md, folgt den Stages, produziert den Output.</p>
+  </div>
+</div></section>
 
-<span class="dir">  context/</span>                   <span class="comment"># WISSEN</span>
-<span class="dir">    business/</span>                <span class="comment">#   Firma, APIs, Strategien</span>
-<span class="dir">      telos/</span>                 <span class="comment">#     Mission, Vision, Werte</span>
-<span class="dir">      onboarding/</span>            <span class="comment">#     Team-Setup Guides</span>
-<span class="dir">    learning/</span>                <span class="comment">#   Kurse, Transkripte</span>
-<span class="dir">    calls/</span>                   <span class="comment">#   Meeting Notes</span>
+<section style="background:var(--g50)"><div class="container">
+  <div class="label">Kern</div>
+  <h2>Routing Table (Auszug)</h2>
+  <p class="desc">Die komplette Tabelle steht in CLAUDE.md.</p>
+  <div class="routing"><h3>Aufgabe &rarr; Skill &rarr; Output</h3>
+    <table>
+      <tr><th>Aufgabe</th><th>Ordner</th><th>Skill</th></tr>
+      <tr><td class="cat" colspan="3">SALES</td></tr>
+      <tr><td>Prospect Research</td><td>workspace/clients/</td><td class="skill">prospect-orchestrator</td></tr>
+      <tr><td>LinkedIn Outreach</td><td>workspace/foundations/</td><td class="skill">linkedin-outreach</td></tr>
+      <tr><td>Angebot / Rechnung</td><td>workspace/docs/</td><td class="skill">angebot-pdf</td></tr>
+      <tr><td class="cat" colspan="3">LEADS & RESEARCH</td></tr>
+      <tr><td>Leads enrichen</td><td>.tmp/</td><td class="skill">lead-enrichment</td></tr>
+      <tr><td>Deep Research</td><td>workspace/research/</td><td class="skill">deep-search</td></tr>
+      <tr><td>Marktanalyse</td><td>workspace/research/</td><td class="skill">market-intelligence</td></tr>
+      <tr><td class="cat" colspan="3">CONTENT</td></tr>
+      <tr><td>LinkedIn Post</td><td>workspace/content/</td><td class="skill">linkedin-post</td></tr>
+      <tr><td>Content Pipeline</td><td>workspace/content/</td><td class="skill">content-pipeline</td></tr>
+      <tr><td class="cat" colspan="3">VIDEO</td></tr>
+      <tr><td>AI Videocut</td><td>scripts/video/</td><td class="skill">videocut</td></tr>
+      <tr><td>Schnitt Pipeline</td><td>ClickUp</td><td class="skill">schnitt-pipeline</td></tr>
+      <tr><td>Remotion Render</td><td>scripts/video/</td><td class="skill">remotion-render</td></tr>
+      <tr><td class="cat" colspan="3">WEB & DESIGN</td></tr>
+      <tr><td>Web UI / Landing</td><td>scripts/projects/</td><td class="skill">impeccable</td></tr>
+      <tr><td>App bauen</td><td>scripts/projects/</td><td class="skill">developer-agent</td></tr>
+      <tr><td>Bild / Video / Audio</td><td>--</td><td class="skill">generative-media (100+)</td></tr>
+      <tr><td class="cat" colspan="3">AUTOMATION</td></tr>
+      <tr><td>Browser Automation</td><td>scripts/tinder-auto/</td><td class="skill">playwright-cli</td></tr>
+      <tr><td>Webhooks</td><td>scripts/services/</td><td class="skill">kondo</td></tr>
+      <tr><td>Telegram Commands</td><td>scripts/servers/</td><td class="skill">telegram-command-center</td></tr>
+    </table>
+  </div>
+</div></section>
 
-<span class="dir">  code/</span>                      <span class="comment"># SYSTEM</span>
-<span class="dir">    skills/</span>                  <span class="comment">#   103 Business Skills</span>
-<span class="dir">    external/</span>                <span class="comment">#   Referenz-Repos</span>
-
-<span class="dir">  workspace/</span>                 <span class="comment"># ARBEIT</span>
-<span class="dir">    clients/</span>                 <span class="comment">#   Ein Ordner pro Client</span>
-<span class="dir">    content/</span>                 <span class="comment">#   LinkedIn, Social Media</span>
-<span class="dir">    foundations/</span>              <span class="comment">#   Tagesplanung, Outreach</span>
-<span class="dir">    projects/</span>                <span class="comment">#   Laufende Projekte</span>
-<span class="dir">    research/</span>                <span class="comment">#   Marktanalysen</span>
-
-<span class="dir">  scripts/</span>                   <span class="comment"># CODE</span>
-<span class="dir">    api/</span>                     <span class="comment">#   LinkedIn, Airtable Clients</span>
-<span class="dir">    pipelines/</span>               <span class="comment">#   Enrichment, Content, Outreach</span>
-<span class="dir">    projects/</span>                <span class="comment">#   Web-Apps (Next.js, Payload)</span>
-<span class="dir">    reports/</span>                 <span class="comment">#   Daily Digest, KPIs</span>
-<span class="dir">    servers/</span>                 <span class="comment">#   Telegram Bot, Webhooks</span>
-<span class="dir">    services/</span>                <span class="comment">#   Shannon, Kondo</span>
-<span class="dir">    tinder-auto/</span>             <span class="comment">#   Playwright Automation</span>
-<span class="dir">    video/</span>                   <span class="comment">#   Videocut, Remotion</span>
+<section><div class="container">
+  <div class="label">Workflow</div>
+  <h2>Von der Aufgabe zum Output</h2>
+  <div class="flow-wrap">
+    <div class="flow-box primary">CLAUDE.md &mdash; Routing Table</div>
+    <div class="flow-arrow"></div>
+    <div class="flow-label">"Was willst du tun?"</div>
+    <div class="flow-arrow"></div>
+    <div class="flow-grid">
+      <div style="text-align:center"><div class="flow-card s"><h4>Sales</h4><ul><li>Prospect Research</li><li>Lead Enrichment</li><li>Angebote</li><li>Cold Outreach</li></ul></div><div class="flow-pipe"></div><div class="flow-target">scripts/pipelines/</div><div class="flow-pipe"></div><div class="flow-target">Airtable CRM</div></div>
+      <div style="text-align:center"><div class="flow-card c"><h4>Content</h4><ul><li>LinkedIn Posts</li><li>Content Pipeline</li><li>Repurposing</li><li>Strategie</li></ul></div><div class="flow-pipe"></div><div class="flow-target">scripts/pipelines/</div><div class="flow-pipe"></div><div class="flow-target">LinkedIn API</div></div>
+      <div style="text-align:center"><div class="flow-card v"><h4>Video</h4><ul><li>Schnitt-Pipeline</li><li>AI Videocut</li><li>Remotion Render</li><li>Video Pitch</li></ul></div><div class="flow-pipe"></div><div class="flow-target">scripts/video/</div><div class="flow-pipe"></div><div class="flow-target">ClickUp</div></div>
     </div>
   </div>
-</section>
+</div></section>
 
-<!-- SKILLS -->
-<section>
-  <div class="container">
-    <div class="section-label">Skills</div>
-    <h2>169 AI Skills</h2>
-    <p class="section-desc">Drei Orte, ein System. Jeder Skill hat eine SKILL.md mit Stages, Beispielen und Referenzen.</p>
+<section style="background:var(--g50)"><div class="container">
+  <div class="label">Skills</div>
+  <h2>169 AI Skills</h2>
+  <p class="desc">Drei Orte. Jeder Skill hat eine SKILL.md mit Stages und Beispielen.</p>
+  <div class="skill-numbers">
+    <div class="skill-num"><strong>103</strong><div class="p">code/skills/</div><span>Business Skills</span></div>
+    <div class="skill-num"><strong>28</strong><div class="p">.claude/skills/</div><span>Projekt-Skills</span></div>
+    <div class="skill-num"><strong>38</strong><div class="p">~/.claude/skills/</div><span>System-Skills</span></div>
+  </div>
+  <div class="skills-grid">
+    <div class="scat"><div class="scat-head"><div class="scat-icon" style="background:var(--blue-l);color:var(--blue)">S</div><h4>Sales</h4></div><div class="tags"><span class="tag">prospect-orchestrator</span><span class="tag">lead-enrichment</span><span class="tag">cold-email</span><span class="tag">cold-call</span><span class="tag">door-opener</span><span class="tag">angebot-pdf</span><span class="tag">proposal-generator</span><span class="tag">sequence-engine</span></div></div>
+    <div class="scat"><div class="scat-head"><div class="scat-icon" style="background:var(--green-l);color:var(--green)">C</div><h4>Content</h4></div><div class="tags"><span class="tag">linkedin-post</span><span class="tag">content-pipeline</span><span class="tag">content-repurposer</span><span class="tag">content-strategy</span><span class="tag">carousel-builder</span><span class="tag">copywriting</span></div></div>
+    <div class="scat"><div class="scat-head"><div class="scat-icon" style="background:var(--amber-l);color:var(--amber)">V</div><h4>Video</h4></div><div class="tags"><span class="tag">videocut</span><span class="tag">schnitt-pipeline</span><span class="tag">video-pitch</span><span class="tag">remotion-render</span><span class="tag">video-review</span><span class="tag">video-scorecard</span></div></div>
+    <div class="scat"><div class="scat-head"><div class="scat-icon" style="background:var(--rose-l);color:var(--rose)">W</div><h4>Web / Design</h4></div><div class="tags"><span class="tag">impeccable</span><span class="tag">taste-skill</span><span class="tag">soft-skill</span><span class="tag">developer-agent</span><span class="tag">brutalist-skill</span><span class="tag">minimalist-skill</span></div></div>
+    <div class="scat"><div class="scat-head"><div class="scat-icon" style="background:var(--purple-l);color:var(--purple)">R</div><h4>Research</h4></div><div class="tags"><span class="tag">deep-search</span><span class="tag">industry-scout</span><span class="tag">market-intelligence</span><span class="tag">customer-research</span><span class="tag">competitive-ads-extractor</span></div></div>
+    <div class="scat"><div class="scat-head"><div class="scat-icon" style="background:var(--g100);color:var(--g500)">A</div><h4>Automation</h4></div><div class="tags"><span class="tag">tinder-auto</span><span class="tag">kondo</span><span class="tag">telegram-command-center</span><span class="tag">playwright-cli</span><span class="tag">instagram-audit</span><span class="tag">generative-media</span></div></div>
+  </div>
+</div></section>
 
-    <div class="skill-locations">
-      <div class="skill-loc">
-        <strong>103</strong>
-        <div class="path">code/skills/</div>
-        <p>Business Skills</p>
-      </div>
-      <div class="skill-loc">
-        <strong>28</strong>
-        <div class="path">.claude/skills/</div>
-        <p>Projekt-Skills</p>
-      </div>
-      <div class="skill-loc">
-        <strong>38</strong>
-        <div class="path">~/.claude/skills/</div>
-        <p>System-Skills</p>
-      </div>
+<section><div class="container">
+  <div class="label">Automationen</div>
+  <h2>Pipeline-Architektur</h2>
+  <p class="desc">Automatisierte Workflows von Lead-Generierung bis Content-Publishing.</p>
+  <div class="pipe-grid">
+    <div class="pipe"><h4>Lead Enrichment</h4>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--blue)"></div>Neuer Lead im CRM<span class="m">Airtable</span></div>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--blue)"></div>Waterfall Enrichment<span class="m">waterfall_enrich.py</span></div>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--blue)"></div>Firecrawl + Apify + PhantomBuster<span class="m">APIs</span></div>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--blue)"></div>Sequence Engine<span class="m">sequence_engine.py</span></div>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--green)"></div>Outreach (Email / LinkedIn)<span class="m">auto</span></div>
     </div>
-
-    <div class="skills-grid">
-      <div class="skill-cat">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon" style="background:var(--accent-light);color:var(--accent)">S</div>
-          <h4>Sales</h4>
-        </div>
-        <div class="skill-list">
-          <span class="skill-tag">prospect-orchestrator</span>
-          <span class="skill-tag">lead-enrichment</span>
-          <span class="skill-tag">cold-email</span>
-          <span class="skill-tag">cold-call</span>
-          <span class="skill-tag">door-opener</span>
-          <span class="skill-tag">angebot-pdf</span>
-          <span class="skill-tag">proposal-generator</span>
-          <span class="skill-tag">sequence-engine</span>
-        </div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon" style="background:var(--green-light);color:var(--green)">C</div>
-          <h4>Content</h4>
-        </div>
-        <div class="skill-list">
-          <span class="skill-tag">linkedin-post</span>
-          <span class="skill-tag">content-pipeline</span>
-          <span class="skill-tag">content-repurposer</span>
-          <span class="skill-tag">content-strategy</span>
-          <span class="skill-tag">carousel-builder</span>
-          <span class="skill-tag">copywriting</span>
-          <span class="skill-tag">content-research-writer</span>
-        </div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon" style="background:var(--amber-light);color:var(--amber)">V</div>
-          <h4>Video</h4>
-        </div>
-        <div class="skill-list">
-          <span class="skill-tag">videocut</span>
-          <span class="skill-tag">schnitt-pipeline</span>
-          <span class="skill-tag">video-pitch</span>
-          <span class="skill-tag">remotion-render</span>
-          <span class="skill-tag">video-review</span>
-          <span class="skill-tag">video-scorecard</span>
-        </div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon" style="background:var(--rose-light);color:var(--rose)">W</div>
-          <h4>Web / Design</h4>
-        </div>
-        <div class="skill-list">
-          <span class="skill-tag">impeccable</span>
-          <span class="skill-tag">taste-skill</span>
-          <span class="skill-tag">soft-skill</span>
-          <span class="skill-tag">developer-agent</span>
-          <span class="skill-tag">brutalist-skill</span>
-          <span class="skill-tag">minimalist-skill</span>
-        </div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon" style="background:var(--purple-light);color:var(--purple)">R</div>
-          <h4>Research</h4>
-        </div>
-        <div class="skill-list">
-          <span class="skill-tag">deep-search</span>
-          <span class="skill-tag">industry-scout</span>
-          <span class="skill-tag">market-intelligence</span>
-          <span class="skill-tag">customer-research</span>
-          <span class="skill-tag">competitive-ads-extractor</span>
-        </div>
-      </div>
-      <div class="skill-cat">
-        <div class="skill-cat-header">
-          <div class="skill-cat-icon" style="background:var(--gray-100);color:var(--gray-500)">A</div>
-          <h4>Automation</h4>
-        </div>
-        <div class="skill-list">
-          <span class="skill-tag">tinder-auto</span>
-          <span class="skill-tag">kondo</span>
-          <span class="skill-tag">telegram-command-center</span>
-          <span class="skill-tag">linkedin-automation</span>
-          <span class="skill-tag">playwright-cli</span>
-          <span class="skill-tag">instagram-audit</span>
-        </div>
-      </div>
+    <div class="pipe"><h4>Content Pipeline</h4>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--green)"></div>Content-Strategie<span class="m">content-strategy</span></div>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--green)"></div>Research + Themen<span class="m">content-research</span></div>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--green)"></div>Draft erstellen<span class="m">linkedin-post</span></div>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--green)"></div>Quality Gate<span class="m">humanize</span></div>
+      <div class="pipe-step"><div class="pipe-dot" style="background:var(--green)"></div>Publishing<span class="m">batch_scheduler.py</span></div>
     </div>
   </div>
-</section>
+</div></section>
 
-<!-- PIPELINES -->
-<section style="background: var(--gray-50)">
-  <div class="container">
-    <div class="section-label">Automationen</div>
-    <h2>Pipeline-Architektur</h2>
-    <p class="section-desc">Automatisierte Workflows von Lead-Generierung bis Content-Publishing.</p>
-    <div class="pipeline-grid">
-      <div class="pipeline-card">
-        <h4>Lead Enrichment</h4>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--accent)"></div>
-          Neuer Lead im CRM
-          <span class="mono">Airtable</span>
-        </div>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--accent)"></div>
-          Waterfall Enrichment
-          <span class="mono">waterfall_enrich.py</span>
-        </div>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--accent)"></div>
-          Firecrawl + Apify + PhantomBuster
-          <span class="mono">APIs</span>
-        </div>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--accent)"></div>
-          Sequence Engine
-          <span class="mono">sequence_engine.py</span>
-        </div>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--green)"></div>
-          Outreach (Email / LinkedIn)
-          <span class="mono">auto</span>
-        </div>
-      </div>
-      <div class="pipeline-card">
-        <h4>Content Pipeline</h4>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--green)"></div>
-          Content-Strategie definieren
-          <span class="mono">content-strategy</span>
-        </div>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--green)"></div>
-          Research + Themen finden
-          <span class="mono">content-research</span>
-        </div>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--green)"></div>
-          Draft erstellen
-          <span class="mono">linkedin-post</span>
-        </div>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--green)"></div>
-          Quality Gate + Review
-          <span class="mono">humanize</span>
-        </div>
-        <div class="pipeline-step">
-          <div class="pipeline-dot" style="background:var(--green)"></div>
-          Scheduling + Publishing
-          <span class="mono">batch_scheduler.py</span>
-        </div>
-      </div>
-    </div>
+<section style="background:var(--g50)"><div class="container">
+  <div class="label">Stack</div>
+  <h2>Integrationen</h2>
+  <div class="int-grid">
+    <div class="int"><div class="int-icon" style="background:var(--blue-l);color:var(--blue)">At</div><div><h4>Airtable</h4><p>CRM, Lead Pipeline, MCP</p></div></div>
+    <div class="int"><div class="int-icon" style="background:var(--green-l);color:var(--green)">CU</div><div><h4>ClickUp</h4><p>Projekt- / Schnitt-Pipeline</p></div></div>
+    <div class="int"><div class="int-icon" style="background:var(--blue-l);color:var(--blue)">Li</div><div><h4>LinkedIn</h4><p>Outreach, Content, Sales Nav</p></div></div>
+    <div class="int"><div class="int-icon" style="background:var(--purple-l);color:var(--purple)">Tg</div><div><h4>Telegram</h4><p>Bot, Notifications</p></div></div>
+    <div class="int"><div class="int-icon" style="background:var(--green-l);color:var(--green)">Pw</div><div><h4>Playwright</h4><p>Browser Automation</p></div></div>
+    <div class="int"><div class="int-icon" style="background:var(--amber-l);color:var(--amber)">Fc</div><div><h4>Firecrawl</h4><p>Web Scraping, MCP</p></div></div>
+    <div class="int"><div class="int-icon" style="background:var(--rose-l);color:var(--rose)">11</div><div><h4>ElevenLabs</h4><p>KI-Telefonanlage</p></div></div>
+    <div class="int"><div class="int-icon" style="background:var(--amber-l);color:var(--amber)">Re</div><div><h4>Remotion</h4><p>Programmatisches Video</p></div></div>
+    <div class="int"><div class="int-icon" style="background:var(--black);color:var(--white)">Cl</div><div><h4>Claude Code</h4><p>AI-Kern des Systems</p></div></div>
   </div>
-</section>
+</div></section>
 
-<!-- INTEGRATIONS -->
-<section>
-  <div class="container">
-    <div class="section-label">Stack</div>
-    <h2>Externe Integrationen</h2>
-    <p class="section-desc">Verbunden mit den wichtigsten Business-Tools ueber APIs und MCP Server.</p>
-    <div class="integrations">
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--accent-light);color:var(--accent)">At</div>
-        <div>
-          <h4>Airtable</h4>
-          <p>CRM, Lead Pipeline, MCP</p>
-        </div>
-      </div>
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--green-light);color:var(--green)">CU</div>
-        <div>
-          <h4>ClickUp</h4>
-          <p>Projekt- und Schnitt-Pipeline</p>
-        </div>
-      </div>
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--accent-light);color:var(--accent)">Li</div>
-        <div>
-          <h4>LinkedIn</h4>
-          <p>Outreach, Content, Sales Nav</p>
-        </div>
-      </div>
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--purple-light);color:var(--purple)">Tg</div>
-        <div>
-          <h4>Telegram</h4>
-          <p>Bot, Notifications, Commands</p>
-        </div>
-      </div>
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--green-light);color:var(--green)">Pw</div>
-        <div>
-          <h4>Playwright</h4>
-          <p>Web Scraping, Tinder Auto</p>
-        </div>
-      </div>
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--amber-light);color:var(--amber)">Fc</div>
-        <div>
-          <h4>Firecrawl</h4>
-          <p>Website Scraping, MCP</p>
-        </div>
-      </div>
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--rose-light);color:var(--rose)">11</div>
-        <div>
-          <h4>ElevenLabs</h4>
-          <p>KI-Telefonanlage, Voice</p>
-        </div>
-      </div>
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--amber-light);color:var(--amber)">Re</div>
-        <div>
-          <h4>Remotion</h4>
-          <p>Programmatisches Video</p>
-        </div>
-      </div>
-      <div class="integration">
-        <div class="integration-icon" style="background:var(--black);color:var(--white)">Cl</div>
-        <div>
-          <h4>Claude Code</h4>
-          <p>AI-Kern des Systems</p>
-        </div>
-      </div>
-    </div>
+<section><div class="container">
+  <div class="label">Methodik</div>
+  <h2>6 Regeln</h2>
+  <p class="desc">Nach Jake Van Clief. So arbeitet der AI-Agent.</p>
+  <div class="rules">
+    <div class="rule"><div class="rule-n">0</div><div><h4>Memory zuerst</h4><p>Was weiss ich schon? Memory-Datenbank pruefen.</p></div></div>
+    <div class="rule"><div class="rule-n">1</div><div><h4>Skills zuerst</h4><p>Skill existiert? Folge ihm. Keiner da? Baue einen.</p></div></div>
+    <div class="rule"><div class="rule-n">2</div><div><h4>CONTEXT.md zuerst</h4><p>Lies sie bevor du in einem Ordner arbeitest.</p></div></div>
+    <div class="rule"><div class="rule-n">3</div><div><h4>Scripts wiederverwenden</h4><p>scripts/ pruefen bevor du neuen Code schreibst.</p></div></div>
+    <div class="rule"><div class="rule-n">4</div><div><h4>Docs ueber Outputs</h4><p>context/ und SKILL.md sind Wahrheit.</p></div></div>
+    <div class="rule"><div class="rule-n">5</div><div><h4>USER / SYSTEM Trennung</h4><p>context/ + workspace/ = User. code/ + scripts/ = System.</p></div></div>
   </div>
-</section>
+</div></section>
 
-<!-- METHODOLOGY -->
-<section style="background: var(--gray-50)">
-  <div class="container">
-    <div class="section-label">Methodik</div>
-    <h2>Jake Van Clief Prinzipien</h2>
-    <p class="section-desc">Die Ordnerstruktur und Arbeitsweise folgen sechs klaren Regeln.</p>
-    <div class="method-grid">
-      <div class="method-item">
-        <div class="method-num">1</div>
-        <div>
-          <h4>CONTEXT.md zuerst</h4>
-          <p>Jeder Hauptordner hat eine CONTEXT.md. Lies sie bevor du arbeitest.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <div class="method-num">2</div>
-        <div>
-          <h4>PROGRESS.md pro Client</h4>
-          <p>Session-Start: lesen. Session-Ende: updaten. Kontinuitaet ueber Sessions.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <div class="method-num">3</div>
-        <div>
-          <h4>Routing Table</h4>
-          <p>CLAUDE.md definiert fuer jede Aufgabe den Pfad: welcher Skill, welcher Ordner.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <div class="method-num">4</div>
-        <div>
-          <h4>Skills-First</h4>
-          <p>Skill existiert? Folge ihm. Nicht vorhanden? Baue einen neuen.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <div class="method-num">5</div>
-        <div>
-          <h4>USER / SYSTEM Trennung</h4>
-          <p>context/ und workspace/ = User-Daten. code/ und scripts/ = System.</p>
-        </div>
-      </div>
-      <div class="method-item">
-        <div class="method-num">6</div>
-        <div>
-          <h4>Quality Gates</h4>
-          <p>Jeder Output wird durch Scoring und Review geprueft bevor er rausgeht.</p>
-        </div>
-      </div>
-    </div>
+<section style="background:var(--g50)"><div class="container">
+  <div class="label">Setup</div>
+  <h2>Quick Start</h2>
+  <div class="qs"><h3>In 4 Schritten loslegen</h3>
+    <div class="qs-step"><div class="qs-n">1</div><p><strong>Obsidian Vault oeffnen</strong> &mdash; <code>vault/</code> als Obsidian Vault</p></div>
+    <div class="qs-step"><div class="qs-n">2</div><p><strong>System-Skills installieren</strong> &mdash; <code>cp -r claude-skills/* ~/.claude/skills/</code></p></div>
+    <div class="qs-step"><div class="qs-n">3</div><p><strong>Environment einrichten</strong> &mdash; <code>env-example.txt</code> nach <code>.env</code>, eigene Keys eintragen</p></div>
+    <div class="qs-step"><div class="qs-n">4</div><p><strong>CLAUDE.md lesen</strong> &mdash; Routing Table = dein Startpunkt</p></div>
   </div>
-</section>
+</div></section>
 
-<!-- QUICKSTART -->
-<section>
-  <div class="container">
-    <div class="section-label">Setup</div>
-    <h2>Quick Start</h2>
-    <p class="section-desc">In vier Schritten zum laufenden System.</p>
-    <div class="quickstart">
-      <h3>Installation</h3>
-      <div class="qs-step">
-        <div class="qs-num">1</div>
-        <p><strong>Obsidian Vault oeffnen</strong> — <code>vault/</code> als Obsidian Vault oeffnen</p>
-      </div>
-      <div class="qs-step">
-        <div class="qs-num">2</div>
-        <p><strong>System-Skills installieren</strong> — <code>cp -r claude-skills/* ~/.claude/skills/</code></p>
-      </div>
-      <div class="qs-step">
-        <div class="qs-num">3</div>
-        <p><strong>Environment einrichten</strong> — <code>env-example.txt</code> nach <code>.env</code> kopieren, eigene API Keys eintragen</p>
-      </div>
-      <div class="qs-step">
-        <div class="qs-num">4</div>
-        <p><strong>CLAUDE.md lesen</strong> — Dort steht die komplette Routing Table. Das ist dein Startpunkt.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="container">
-    <strong>FilmlaborOS</strong> — Built with Obsidian + Claude Code + 169 AI Skills
-  </div>
-</footer>
-
+<footer><div class="container"><strong>FilmlaborOS</strong> &mdash; Obsidian + Claude Code + 169 AI Skills</div></footer>
 </body>
 </html>
